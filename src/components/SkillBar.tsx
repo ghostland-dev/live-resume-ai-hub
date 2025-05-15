@@ -20,8 +20,8 @@ const SkillBar: React.FC<SkillBarProps> = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       if (progressRef.current) {
-        progressRef.current.style.setProperty('--width', `${proficiency}%`);
-        progressRef.current.classList.add('animate-grow-width');
+        progressRef.current.style.width = `${proficiency}%`;
+        progressRef.current.classList.add('transition-all', 'duration-1000', 'ease-out');
       }
     }, delay);
 
@@ -45,7 +45,7 @@ const SkillBar: React.FC<SkillBarProps> = ({
       <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden shadow-inner">
         <div 
           ref={progressRef}
-          className={cn("h-full rounded-full w-0 transition-all", getColorClass())}
+          className={cn("h-full rounded-full", getColorClass())}
           style={{ width: '0%' }}
         />
       </div>

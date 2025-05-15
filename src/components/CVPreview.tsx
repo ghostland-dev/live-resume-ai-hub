@@ -1,12 +1,14 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Download, Share2, Briefcase, GraduationCap, Award, User } from 'lucide-react';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import { Download, Share2, Briefcase, GraduationCap, Award, User, FileSearch } from 'lucide-react';
 import Timeline from './Timeline';
 import SkillBar from './SkillBar';
+import CVDeepAnalysis from './CVDeepAnalysis';
 
 interface Education {
   institution: string;
@@ -41,6 +43,10 @@ interface CVPreviewProps {
 }
 
 const CVPreview: React.FC<CVPreviewProps> = ({ data, className }) => {
+  const [cvScore, setCvScore] = useState(87); // Example CV score
+
+  const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
+
   return (
     <Card className={cn("overflow-hidden shadow-lg", className)}>
       <CardHeader className="bg-gradient-to-r from-purple-600 to-purple-400 text-white pb-12 pt-10 rounded-t-lg">
@@ -56,6 +62,16 @@ const CVPreview: React.FC<CVPreviewProps> = ({ data, className }) => {
             <Badge variant="secondary" className="bg-white/20 hover:bg-white/30">
               Available for hire
             </Badge>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Badge variant="purple" className="cursor-pointer bg-purple-800 hover:bg-purple-700">
+                  CV Score: {cvScore}%
+                </Badge>
+              </DialogTrigger>
+              <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+                <CVDeepAnalysis data={data} />
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
       </CardHeader>
@@ -134,6 +150,10 @@ const CVPreview: React.FC<CVPreviewProps> = ({ data, className }) => {
           <Download className="mr-2 h-4 w-4" />
           Download PDF
         </Button>
+        <Button variant="outline" size="sm" className="hover:bg-purple-50 hover:text-purple-700 flex items-center gap-2">
+          <FileSearch className="h-4 w-4" />
+          Deep Analysis
+        </Button>
         <Button variant="outline" size="sm" className="hover:bg-purple-50 hover:text-purple-700">
           <Share2 className="mr-2 h-4 w-4" />
           Share CV
@@ -142,7 +162,5 @@ const CVPreview: React.FC<CVPreviewProps> = ({ data, className }) => {
     </Card>
   );
 };
-
-const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
 
 export default CVPreview;
